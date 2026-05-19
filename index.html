@@ -1,0 +1,182 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<h3>4D Permutations Generator</h3>
+
+<input type="text" id="name" value="1234">
+<hr>
+<button onclick="add()">Run Test</button>
+<p id="demo"></p>
+
+<script>
+//html: load blank string variable value
+
+let newArr = [];
+
+function add()
+{
+let name = document.getElementById("name").value;
+
+let arr = name.split('');
+//let newArr = [];
+
+if (name.length < 4 || name.length > 4)
+{ 
+
+document.getElementById("demo").innerHTML = "<b>4 Characters needed</b><hr>";
+
+return; 
+}
+
+if(checkIfAllSame(arr) != 4)
+{
+let f = generate(arr);
+print(f);
+}
+};
+
+
+function checkIfAllSame(arr)
+{
+let same = 1;
+
+for (let i = 0; i < 1;i++)
+{
+for (let j = 0; j < arr.length-1; j++)
+{
+if (arr[i] === arr[j+1])
+{
+same += 1;
+}
+}
+}
+
+document.getElementById("demo").innerHTML = "<b>Same Characters:" + "</b><hr>" + arr.join("");
+
+return same;
+};
+
+
+function generate(arr)
+{
+newArr.push( 
+
+[
+arr[0],arr[1],arr[2],arr[3]
++"<hr>"].join(""),
+[
+arr[0],arr[1],arr[3],arr[2]
++"<hr>"].join(""),
+[
+arr[0],arr[2],arr[1],arr[3]
++"<hr>"].join(""),
+
+[
+arr[0],arr[2],arr[3],arr[1]
+,"<hr>"].join(""),
+[
+arr[0],arr[3],arr[1],arr[2]
+,"<hr>"].join(""),
+[
+arr[0],arr[3],arr[2],arr[1]
+,"<hr>"].join(""),
+
+
+[
+arr[1],arr[0],arr[2],arr[3]
+,"<hr>"].join(""),
+[
+arr[1],arr[0],arr[3],arr[2]
+,"<hr>"].join(""),
+[
+arr[1],arr[2],arr[0],arr[3]
+,"<hr>"].join(""),
+[
+arr[1],arr[2],arr[3],arr[0]
+,"<hr>"].join(""),
+[
+arr[1],arr[3],arr[0],arr[2]
+,"<hr>"].join(""),
+[
+arr[1],arr[3],arr[2],arr[0]
+,"<hr>"].join(""),
+
+
+[
+arr[2],arr[0],arr[3],arr[1]
+,"<hr>"].join(""),
+[
+arr[2],arr[0],arr[1],arr[3]
+,"<hr>"].join(""),
+[
+arr[2],arr[1],arr[0],arr[3]
+,"<hr>"].join(""),
+[
+arr[2],arr[1],arr[3],arr[0]
+,"<hr>"].join(""),
+[
+arr[2],arr[3],arr[0],arr[1]
+,"<hr>"].join(""),
+[
+arr[2],arr[3],arr[1],arr[0]
+,"<hr>"].join(""),
+
+
+[
+arr[3],arr[2],arr[1],arr[0]
+,"<hr>"].join(""),
+[
+arr[3],arr[0],arr[2],arr[1]
+,"<hr>"].join(""),
+[
+arr[3],arr[0],arr[1],arr[2]
+,"<hr>"].join(""),
+[
+arr[3],arr[2],arr[0],arr[1]
+,"<hr>"].join(""),
+[
+arr[3],arr[1],arr[2],arr[0]
+,"<hr>"].join(""),
+[
+arr[3],arr[1],arr[0],arr[2]
+,"<hr>"].join(""),
+);
+
+newArr.sort();
+
+for (let i = 0; i < newArr.length;i++)
+{
+
+for (let j = 0; j < newArr.length-1; j++)
+{
+
+if (newArr[j] === newArr[j+1])
+{
+newArr[j+1] = "z";
+
+newArr.sort();
+
+newArr.splice(newArr.indexOf("z"));
+}
+}
+}
+return newArr;
+};
+
+
+function print(arr)
+{
+for (let i = 0; i < arr.length; i++)
+{
+arr[i] = i+1 + " - " + arr[i];
+}
+
+document.getElementById("demo").innerHTML = "<b>Results:</b><hr>" + newArr.join("");
+
+};
+
+
+
+
+
+
+</script>

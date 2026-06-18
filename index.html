@@ -1,182 +1,60 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+const express = require('express');
+//npm install express
 
-<h3>4D Permutations Generator</h3>
+const app = express();
+let port = 8080;
 
-<input type="text" id="name" value="1234">
-<hr>
-<button onclick="add()">Run Test</button>
-<p id="demo"></p>
+//for getting urlencoded: http://localhost:8080?some=111&other=222
+//extended true: parsing bodies from URL
+app.use(express.urlencoded({ extended: true}));
 
-<script>
-//html: load blank string variable value
+//if client sends in json
+//app.use(express.json());
 
-let newArr = [];
 
-function add()
+//the route handler for: http://localhost:8080
+//and also: http://localhost:8080?abc=111&def=222
+//////////////
+app.get('/', (req, res) => {
+
+let str = "";
+    
+//req.query gets the urlencoded into key value object
+console.log(req.query);
+
+//query reads: http://localhost:8080?abc=111&def=222
+for (let i in req.query) 
 {
-let name = document.getElementById("name").value;
+console.log(i, req.query[i]);
 
-let arr = name.split('');
-//let newArr = [];
-
-if (name.length < 4 || name.length > 4)
-{ 
-
-document.getElementById("demo").innerHTML = "<b>4 Characters needed</b><hr>";
-
-return; 
+//str += to add key & value
+str += " " + i + ": " + req.query[i];
 }
+//send() response to client with auto content length
+res.send("<h3>URL encoded</h3>Paste to URL example:<br>http://localhost:8080/calc?value=9<br>" 
+	+ "<a href='http://localhost:8080/calc?value=9'>Test</a><hr>" 
+	+ "You sent: " + str);
 
-if(checkIfAllSame(arr) != 4)
-{
-let f = generate(arr);
-print(f);
-}
-};
-
-
-function checkIfAllSame(arr)
-{
-let same = 1;
-
-for (let i = 0; i < 1;i++)
-{
-for (let j = 0; j < arr.length-1; j++)
-{
-if (arr[i] === arr[j+1])
-{
-same += 1;
-}
-}
-}
-
-document.getElementById("demo").innerHTML = "<b>Same Characters:" + "</b><hr>" + arr.join("");
-
-return same;
-};
+});
+////// end of /
 
 
-function generate(arr)
-{
-newArr.push( 
+//http://localhost:3000/calc?value=10
+app.get('/calc', (req, res) => {
+    
+//req.query gets the urlencoded into key value object
+console.log(req.query);
 
-[
-arr[0],arr[1],arr[2],arr[3]
-+"<hr>"].join(""),
-[
-arr[0],arr[1],arr[3],arr[2]
-+"<hr>"].join(""),
-[
-arr[0],arr[2],arr[1],arr[3]
-+"<hr>"].join(""),
+//set value with default 1
+let { value = 1.00 } = req.query;
+let calc = parseFloat(value) * 1000;
 
-[
-arr[0],arr[2],arr[3],arr[1]
-,"<hr>"].join(""),
-[
-arr[0],arr[3],arr[1],arr[2]
-,"<hr>"].join(""),
-[
-arr[0],arr[3],arr[2],arr[1]
-,"<hr>"].join(""),
+//send back as json
+res.json( { results : calc } );
+});
+///////end of calc
 
 
-[
-arr[1],arr[0],arr[2],arr[3]
-,"<hr>"].join(""),
-[
-arr[1],arr[0],arr[3],arr[2]
-,"<hr>"].join(""),
-[
-arr[1],arr[2],arr[0],arr[3]
-,"<hr>"].join(""),
-[
-arr[1],arr[2],arr[3],arr[0]
-,"<hr>"].join(""),
-[
-arr[1],arr[3],arr[0],arr[2]
-,"<hr>"].join(""),
-[
-arr[1],arr[3],arr[2],arr[0]
-,"<hr>"].join(""),
+app.listen( port, () => console.log('Server ready at http://localhost:' + port) );
 
 
-[
-arr[2],arr[0],arr[3],arr[1]
-,"<hr>"].join(""),
-[
-arr[2],arr[0],arr[1],arr[3]
-,"<hr>"].join(""),
-[
-arr[2],arr[1],arr[0],arr[3]
-,"<hr>"].join(""),
-[
-arr[2],arr[1],arr[3],arr[0]
-,"<hr>"].join(""),
-[
-arr[2],arr[3],arr[0],arr[1]
-,"<hr>"].join(""),
-[
-arr[2],arr[3],arr[1],arr[0]
-,"<hr>"].join(""),
-
-
-[
-arr[3],arr[2],arr[1],arr[0]
-,"<hr>"].join(""),
-[
-arr[3],arr[0],arr[2],arr[1]
-,"<hr>"].join(""),
-[
-arr[3],arr[0],arr[1],arr[2]
-,"<hr>"].join(""),
-[
-arr[3],arr[2],arr[0],arr[1]
-,"<hr>"].join(""),
-[
-arr[3],arr[1],arr[2],arr[0]
-,"<hr>"].join(""),
-[
-arr[3],arr[1],arr[0],arr[2]
-,"<hr>"].join(""),
-);
-
-newArr.sort();
-
-for (let i = 0; i < newArr.length;i++)
-{
-
-for (let j = 0; j < newArr.length-1; j++)
-{
-
-if (newArr[j] === newArr[j+1])
-{
-newArr[j+1] = "z";
-
-newArr.sort();
-
-newArr.splice(newArr.indexOf("z"));
-}
-}
-}
-return newArr;
-};
-
-
-function print(arr)
-{
-for (let i = 0; i < arr.length; i++)
-{
-arr[i] = i+1 + " - " + arr[i];
-}
-
-document.getElementById("demo").innerHTML = "<b>Results:</b><hr>" + newArr.join("");
-
-};
-
-
-
-
-
-
-</script>

@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true}));
 //to handle client sending in json
 app.use(express.json());
 
-let port = 8080;
+let port = process.env.PORT || 3000; 
 let result = 0;
 
 

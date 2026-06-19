@@ -1,0 +1,26 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<h3>Submit Form</h3>
+<input type="number" id="one" value="10">
+<input type="number" id="two" value="20">
+<button onclick="send()">Send</button>
+
+<div id="out">
+<p>Return:</p>
+</div>
+</body>
+
+<script>
+async function send()
+{
+const response=await fetch(`/submit?one=${window.one.value}&two=${window.two.value}`);
+
+const receiveData = await response.json();  
+
+out.innerHTML += JSON.stringify( receiveData ) + " ";
+out.innerHTML += JSON.stringify( receiveData.data );
+};
+</script>
